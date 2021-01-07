@@ -100,4 +100,55 @@ public class demo {
         }
         return maxProfit;
     }
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        int lengthA=0,lengthB = 0;
+        ListNode p = headA;
+        ListNode q = headB;
+        while (p != null) {
+            p = p.next;
+            lengthA++;
+        }
+        while (q != null) {
+            q = q.next;
+            lengthB++;
+        }
+        p = headA;
+        q = headB;
+        if (lengthA > lengthB) {
+            int tmp = lengthA - lengthB;
+            while (tmp-- != 0) {
+                p = p.next;
+            }
+        } else {
+            int tmp = lengthB - lengthA;
+            while (tmp-- != 0) {
+                q = q.next;
+            }
+        }
+        while (q != p) {
+            q = q.next;
+            p = p.next;
+        }
+        return q;
+    }
+
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        if (head == null || head.next == null) {
+            return null;
+        }
+        ListNode fast = head;
+        ListNode slow = head;
+        while (n-- != 0) {
+            fast = fast.next;
+        }
+        if (fast == null) {
+            return head.next;
+        }
+        while (fast.next != null) {
+            fast = fast.next;
+            slow = slow.next;
+        }
+        slow.next = slow.next.next;
+        return head;
+    }
 }
