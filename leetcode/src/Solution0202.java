@@ -1,3 +1,5 @@
+import java.util.HashSet;
+
 /**
  * 202. 快乐数
  *
@@ -8,7 +10,28 @@
  * 如果 n 是快乐数就返回 True ；不是，则返回 False 。
  */
 public class Solution0202 {
-    /**
-     * 解题思路：set处理循环
-     */
+
+    public boolean isHappy(int n) {
+        HashSet<Integer> hashSet = new HashSet();
+        hashSet.add(n);
+        int next = 0;
+        while (true) {
+            while (n != 0) {
+                int tmp = n % 10; //个位
+                n = n / 10;
+                next += tmp * tmp;
+            }
+            if (next == 1) {
+                return true;
+            } else {
+                if (hashSet.contains(next)) {
+                    return false;
+                } else {
+                    hashSet.add(next);
+                    n = next;
+                    next = 0;
+                }
+            }
+        }
+    }
 }
