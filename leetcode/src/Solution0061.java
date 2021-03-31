@@ -45,6 +45,4 @@ public class Solution0061 {
         }
         return p.next;
     }
-
-
 }

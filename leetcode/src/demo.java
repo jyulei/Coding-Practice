@@ -1,6 +1,8 @@
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+
+import java.util.*;
 
 public class demo {
     public static boolean containsDuplicate(int[] nums) {
@@ -14,8 +16,25 @@ public class demo {
     }
 
     public static void main(String[] args) {
-        int [] a = {1,2,3,1};
-        System.out.println(containsDuplicate(a));
+        List<Integer> list1 = new ArrayList<Integer>();
+        list1.add(1);
+        list1.add(2);
+        List<Integer> list2 = new ArrayList<Integer>();
+        list2.add(3);
+        list2.add(4);
+        List<List<Integer>> listList = new ArrayList<List<Integer>>();
+        listList.add(list1);
+        listList.add(list2);
+
+
+        Gson gson = new GsonBuilder().serializeNulls().create();
+        String str = gson.toJson(listList);
+        System.out.println(str);
+
+
+        List<List<Integer>> newList = gson.fromJson(str, new TypeToken<List<List<Integer>>>() {
+        }.getType());
+        System.out.println(newList);
     }
 
     public ListNode reverseList(ListNode head) {

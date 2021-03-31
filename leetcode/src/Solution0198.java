@@ -16,11 +16,23 @@ public class Solution0198 {
      * @return
      */
     public static int rob(int[] nums) {
-        return 0;
+        int sumLast,sumNow; //sumLast表示从开始偷窃到现在当前位置不投的最大值；sumNow表示从开始偷窃到现在当前位置投的最大值
+        if (nums.length == 0) {
+            return 0;
+        } else if (nums.length == 1) {
+            return nums[0];
+        }
+        sumLast = nums[0];
+        sumNow = nums[1];
+        for (int i = 2;i<nums.length;i++){
+            int sl = sumLast;
+            sumLast = Math.max(sumLast,sumNow);
+            sumNow = sl + nums[i];
+        }
+        return Math.max(sumLast,sumNow);
     }
 
     public static void main(String[] args) {
-        int[] a = {2,7,9,3,1};
-        System.out.println(rob(a));
+
     }
 }
