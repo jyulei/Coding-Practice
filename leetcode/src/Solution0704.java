@@ -42,6 +42,7 @@ public class Solution0704 {
 
     /**
      * 模板二
+     * 用于查找需要访问数组中当前索引及其直接右邻居索引的元素或条件
      * @param nums
      * @param target
      * @return
@@ -67,6 +68,7 @@ public class Solution0704 {
 
     /**
      * 模板三
+     * 用于搜索需要访问当前索引及其在数组中的直接左右邻居索引的元素或条件
      * @param nums
      * @param target
      * @return
