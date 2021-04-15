@@ -1,5 +1,6 @@
 /**
  * 98. 验证二叉搜索树
+ * 关键在于该节点的有孩子与该节点的父亲之间的关系
  */
 public class Solution0098 {
     public boolean isValidBST(TreeNode root) {
