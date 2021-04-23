@@ -39,11 +39,63 @@ public class Solution0116 {
     }
 
     /**
-     * 一种空间为常数的算法
+     * 递归算法
      * @param root
      * @return
      */
     public Node connect1(Node root) {
+        if (root == null) {
+            return root;
+        }
+        root.next=null;
+        build(root);
+        return root;
+    }
+
+    private void build(Node p) {
+        if (p.left == null) {
+            return;
+        }
+        p.left.next=p.right;
+        if (p.next != null) {
+            p.right.next=p.next.left;
+        } else {
+            p.right.next=null;
+        }
+        build(p.left);
+        build(p.right);
+    }
+
+    /**
+     * 一种空间为常数的算法
+     * @param root
+     * @return
+     */
+    public Node connect2(Node root) {
+        if (root == null) {
+            return root;
+        }
+        root.next=null;
+        Node pre,p,preB,pB;  //p为正在进行操作层节点的第一个，pre为p的父亲，preB和pB，用来遍历这一层
+        pre=root;
+        p=pre.left;
+        while (p != null) {
+            preB=pre;
+            pB=p;
+            while (preB != null) {
+                pB.next=preB.right;
+                pB=pB.next;
+                if (preB.next == null) {
+                    pB.next=null;
+                } else {
+                    pB.next=preB.next.left;
+                    pB=pB.next;
+                }
+                preB=preB.next;
+            }
+            pre=p;
+            p=pre.left;
+        }
         return root;
     }
 

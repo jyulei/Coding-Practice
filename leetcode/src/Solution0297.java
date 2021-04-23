@@ -1,3 +1,4 @@
+import java.util.ArrayDeque;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -6,7 +7,13 @@ import java.util.Queue;
  */
 public class Solution0297 {
 
-    public class Codec {
+    public static class Codec {
+
+        int p;
+
+        Codec(){
+            p=0;
+        }
 
         // Encodes a tree to a single string.
         public String serialize(TreeNode root) {
@@ -18,52 +25,84 @@ public class Solution0297 {
             }
             Queue<TreeNode> q =new LinkedList<>();
             q.add(root);
-            s.append(root.val);
+            boolean now=true,next=false;
             while(!q.isEmpty()){
                 int size = q.size();
                 while (size-- != 0) {
                     TreeNode p = q.poll();
                     if (p!=null){
+                        s.append(p.val+",");
                         q.add(p.left);
-                        if (p.left == null) {
-                            s.append(",null");
-                        }
                         q.add(p.right);
-                        if (p.right == null) {
-                            s.append(",null");
+                        if (p.left != null||p.right!=null) {
+                            next=true;
+                        }
+                    } else {
+                        if (now){
+                            s.append("null,");
                         }
                     }
                 }
+                now=next;
+                next=false;
             }
+            s.append("]");
             return s.toString();
         }
 
+        //用一个全局的值代替现在的i，因为目前使用的是满二叉树来计算的下标。
+        //序列化不是通过这样计算下标的
         // Decodes your encoded data to tree.
         public TreeNode deserialize(String data) {
-            data.replace('[',' ');
-            data.replace(']',' ');
+            data=data.replace("[","");
+            data=data.replace("]","");
             data.trim();
             if ("".equals(data)){
                 return null;
             }
             String[] s = data.split(",");
-            TreeNode res = new TreeNode(Integer.parseInt(s[0]));
-            res.left=build(s,1);
-            res.right=build(s,2);
-            return null;
+            TreeNode res = new TreeNode(Integer.parseInt(s[p++]));
+            Queue<TreeNode> q=new ArrayDeque<>();
+            q.add(res);
+            while (!q.isEmpty()){
+                int size = q.size();
+                while (size-- != 0) {
+                    TreeNode node = q.poll();
+                    if (p<s.length){
+                        if ("null".equals(s[p])){
+                            node.left=null;
+                        } else {
+                            node.left=new TreeNode(Integer.parseInt(s[p]));
+                            q.add(node.left);
+                        }
+                        p++;
+                    } else {
+                        node.left=null;
+                    }
+                    if (p<s.length){
+                        if ("null".equals(s[p])){
+                            node.right=null;
+                        } else {
+                            node.right = new TreeNode(Integer.parseInt(s[p]));
+                            q.add(node.right);
+                        }
+                        p++;
+                    } else {
+                        node.right=null;
+                    }
+                }
+            }
+            return res;
         }
 
-        private TreeNode build(String[] s, int i) {
-            if (i>=s.length){
-                return null;
-            } else if ("null".equals(s[i])){
-                return null;
-            } else {
-                TreeNode p= new TreeNode(Integer.parseInt(s[i]));
-//                p.left=build(s,)
-            }
-            return null;
+        public static void main(String[] args) {
+            Codec codec =new Codec();
+            String s= "[1,2,3,null,null,4,5,6,7]";
+            TreeNode res=codec.deserialize(s);
+            System.out.println(1);
         }
     }
+
+
 
 }

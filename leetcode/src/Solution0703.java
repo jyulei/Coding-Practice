@@ -1,6 +1,7 @@
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.PriorityQueue;
 
 /**
  * 703. 数据流中的第 K 大元素
@@ -12,37 +13,51 @@ public class Solution0703 {
      */
     static class KthLargest {
         private int k;
-        private List<Integer> list;
+        private PriorityQueue<Integer> heap;
 
         public KthLargest(int k, int[] nums) {
-            Arrays.sort(nums);
-            this.k = k;
-            this.list = new LinkedList<Integer>();
-            for (int i=nums.length-1;i>=0;i--){
-                list.add(nums[i]);
+            this.k=k;
+            heap=new PriorityQueue<>(k);
+            for (int i=0;i<nums.length;i++){
+                if (i<k){
+                    heap.add(nums[i]);
+                } else {
+                    int tmp=heap.peek();
+                    if (tmp<nums[i]){
+                        heap.poll();
+                        heap.add(nums[i]);
+                    }
+                }
             }
         }
 
         public int add(int val) {
-            int i;
-            for (i=0;i<list.size();i++){
-                if(val>list.get(i)){
-                    break;
+            if(heap.size()<k) {
+                heap.add(val);
+            } else {
+                int tmp=heap.peek();
+                if (tmp<val){
+                    heap.poll();
+                    heap.add(val);
                 }
             }
-            list.add(i,val);
-            return list.get(k-1);
+            return heap.peek();
         }
 
         public static void main(String[] args) {
-            int[] nums={4,5,8,2};
+            int[] nums={5,-1};
             int k=3;
             KthLargest res = new KthLargest(k,nums);
+            res.add(2);
+            System.out.println(res.heap.toString());
+            res.add(1);
+            System.out.println(res.heap.toString());
+            res.add(-1);
+            System.out.println(res.heap.toString());
             res.add(3);
-            res.add(5);
-            res.add(10);
-            res.add(9);
+            System.out.println(res.heap.toString());
             res.add(4);
+            System.out.println(res.heap.toString());
         }
     }
 
