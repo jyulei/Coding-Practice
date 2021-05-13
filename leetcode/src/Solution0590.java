@@ -34,8 +34,8 @@ public class Solution0590 {
                 res.add(stack.pop().val);
             }
         }
-
-    .}
+        return null;
+    }
 
     /**
      * 递归

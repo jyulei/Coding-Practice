@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 /**
  * 119. 杨辉三角
@@ -29,6 +30,23 @@ public class Solution0119 {
             }
             result.add(1);
         }
+        return result;
+    }
+
+    public List<Integer> getRow1(int rowIndex) {
+        if (rowIndex==0){
+            List<Integer> res =new LinkedList();
+            res.add(1);
+            return res;
+        }
+        List<Integer> last=getRow1(rowIndex-1);
+        List<Integer> result = new ArrayList<>();
+        result.add(1);
+        for (int j = 0; j < last.size()-1; j++){
+            int tmp = last.get(j)+last.get(j+1);
+            result.add(tmp);
+        }
+        result.add(1);
         return result;
     }
 }

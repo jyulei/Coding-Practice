@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -37,8 +38,30 @@ public class Solution0118 {
         return lists;
     }
 
+    public static List<List<Integer>> generate1(int numRows) {
+        if (numRows==0){
+            return new LinkedList<>();
+        }
+        if (numRows==1){
+            List<List<Integer>> res =new LinkedList();
+            List<Integer> rowList=new LinkedList();
+            rowList.add(1);
+            res.add(rowList);
+            return res;
+        }
+        List res=generate1(numRows-1);
+        List<Integer> lastList = (List<Integer>) res.get(numRows-2);
+        List newList = new LinkedList();
+        newList.add(1);
+        for (int i=0;i<lastList.size()-1;i++){
+            newList.add(lastList.get(i)+lastList.get(i+1));
+        }
+        newList.add(1);
+        res.add(newList);
+        return res;
+    }
     public static void main(String[] args) {
         int num = 5;
-        List list = generate(num);
+        List list = generate1(num);
     }
 }
